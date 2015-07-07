@@ -1,0 +1,52 @@
+<!DOCTYPE>
+<!DOCTYPE html>
+<html ng-app="webscrapper">
+  <head>
+    <meta charset="utf-8">
+    <title>Vyral Workstation</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="/css/core.css">
+  </head>
+  <body>
+    <div class="jumbotron">
+    <h1>Vyral Workstation</h1>
+    <h3>Email Scrapper</h3>
+    </div>
+    <div class="container" ng-controller="emailScrape">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Url</th>
+            <th>Action</th>
+          </tr>
+          <tr ng-repeat="url in scrape">
+            <td>{{url}}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" name="url" class="form-control" ng-model="url"></td>
+
+            <td ng-hide="show"><button class="btn btn-primary" ng-click="scrape()">Scrape Page</button></td>
+
+
+          </tr>
+        </tbody>
+      </table>
+
+</div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+
+    <script type="text/javascript" src="controllers/clientInfo.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+
+
+  </body>
+</html>

@@ -8,3 +8,25 @@
   z-index: 1;
   position: fixed;
 }
+.color {
+    padding: 0px;
+    width: 75px;
+}
+.jumbotron{
+  background: #124062;
+  color: #FFFFFF;
+  text-shadow: #292929 0px 2px 5px;
+  box-shadow: #292929 0px 1px 5px;
+}
+h1, h3{
+  margin-left: 15%;
+}
+.btn-primary{
+  background: #F77731;
+  border: #F76631 solid 1px;
+}
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
