@@ -10,20 +10,23 @@ gulp.task('express', function() {
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/Public'));
 
+// Request the contact list
   app.get('/contactlist', function(req, res){
-
-    console.log("I recieved a GET request");
     db.contactlist.find(function (err, docs){
       console.log(docs);
       res.json(docs);
     });
   });
+
+// Post to contact list
   app.post('/contactlist', function (req, res){
     console.log(req.body);
     db.contactlist.insert(req.body, function(err, doc){
       res.json(doc);
     });
   });
+
+//Delete from contact list
   app.delete('/contactlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
@@ -31,6 +34,8 @@ gulp.task('express', function() {
       res.json(doc);
     });
   });
+
+//Edit contact list
   app.get('/contactlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
@@ -38,6 +43,8 @@ gulp.task('express', function() {
       res.json(doc);
     });
   });
+
+//Update contact list
   app.put('/contactlist/:id', function (req, res){
     var id = req.params.id;
     console.log(req.body.name);
@@ -47,6 +54,7 @@ gulp.task('express', function() {
     res.json(doc);
     });
   });
+
   app.listen(4000);
 });
 

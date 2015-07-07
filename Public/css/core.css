@@ -1,0 +1,10 @@
+.hidden{
+  display: none;
+}
+.btn {
+  width: 100px;
+}
+.fixededitbox{
+  z-index: 1;
+  position: fixed;
+}
