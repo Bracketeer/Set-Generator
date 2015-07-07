@@ -6,10 +6,6 @@ gulp.task('express', function() {
   var mongojs = require('mongojs');
   var db = mongojs('contactlist', ['contactlist']);
   var bodyParser = require('body-parser');
-  var fs = require('fs');
-  var request = require('request');
-  var cheerio = require('cheerio');
-  var path	= require('path')
 
 
   app.use(bodyParser.json());

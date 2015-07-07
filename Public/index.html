@@ -43,8 +43,8 @@
 
             <td><input type="color" class="form-control color" ng-model="contact.color" name="color"></td>
             <td><input type="color" class="form-control color" ng-model="contact.color2" name="color"></td>
-            <td ng-hide="show"><button class="btn btn-primary" ng-click="addContact()">Add Contact</button></td>
-            <td ng-show="show"><button class="btn btn-info" ng-click="update()">Update</button></td>
+            <td ng-hide="show"><button class="btn btn-primary btn-fixed" ng-click="addContact()">Add Contact</button></td>
+            <td ng-show="show"><button class="btn btn-info btn-fixed" ng-click="update()">Update</button></td>
           </form>
           </tr>
           <tr ng-repeat="contact in contactlist">
@@ -54,8 +54,8 @@
             <td>{{contact.address}}</td>
             <td>{{contact.color}}</td>
             <td>{{contact.color2}}</td>
-            <td ng-show="show"><button class="btn btn-danger" ng-click="remove(contact._id)">Remove</button></td>
-            <td ng-hide="show"><button class="btn btn-warning" ng-click="edit(contact._id)">Edit</button></td>
+            <td ng-show="show"><button class="btn btn-danger btn-fixed" ng-click="remove(contact._id)">Remove</button></td>
+            <td ng-hide="show"><button class="btn btn-warning btn-fixed" ng-click="edit(contact._id)">Edit</button></td>
           </tr>
         </tbody>
       </table>

@@ -2,7 +2,7 @@ var myApp = angular.module('myApp',[]);
 myApp.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 
   var refresh = function(){
-    $http.get('/contactlist').success(function(response){
+    $http.get('/vyraldb').success(function(response){
     console.log('I got the data I requested');
     $scope.contactlist = response;
   });
@@ -10,7 +10,7 @@ myApp.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 refresh();
   $scope.addContact = function(){
     console.log($scope.contact);
-    $http.post('/contactlist', $scope.contact).success(function(response){
+    $http.post('/vyraldb', $scope.contact).success(function(response){
       console.log(response);
       $scope.contact = "";
       refresh();
@@ -19,7 +19,7 @@ refresh();
   $scope.remove = function(id) {
     console.log(id);
     $scope.show = false;
-    $http.delete('/contactlist/' + id).success(function(response){
+    $http.delete('/vyraldb/' + id).success(function(response){
       $scope.contact = "";
       refresh();
     });
@@ -27,14 +27,14 @@ refresh();
   $scope.edit = function(id) {
     console.log(id);
     $scope.show = true;
-    $http.get('/contactlist/' + id).success(function (response){
+    $http.get('/vyraldb/' + id).success(function (response){
       $scope.contact = response;
     });
   };
   $scope.update = function() {
     console.log($scope.contact._id);
     $scope.show = false;
-    $http.put('/contactlist/' + $scope.contact._id, $scope.contact).success(function(response){
+    $http.put('/vyraldb/' + $scope.contact._id, $scope.contact).success(function(response){
       $scope.contact = "";
       refresh();
     });
