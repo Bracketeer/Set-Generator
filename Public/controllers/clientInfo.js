@@ -2,48 +2,50 @@ var myApp = angular.module('myApp',[]);
 myApp.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 
   var refresh = function(){
-    $http.get('/vyraldb').success(function(response){
-    console.log('I got the data I requested');
-    $scope.contactlist = response;
+    $http.get('/vyraldatabase').success(function(response){
+    console.log(response);
+    $scope.clients = response;
   });
 };
 refresh();
-  $scope.addContact = function(){
-    console.log($scope.contact);
-    $http.post('/vyraldb', $scope.contact).success(function(response){
+
+  $scope.addClient = function(){
+    console.log($scope.user);
+    $http.post('/clients', $scope.user).success(function(response){
       console.log(response);
-      $scope.contact = "";
+      $scope.clients = "";
       refresh();
     });
   };
+
   $scope.remove = function(id) {
     console.log(id);
     $scope.show = false;
-    $http.delete('/vyraldb/' + id).success(function(response){
-      $scope.contact = "";
+    $http.delete('/clients/' + id).success(function(response){
+      $scope.clients = "";
       refresh();
     });
   };
   $scope.edit = function(id) {
     console.log(id);
     $scope.show = true;
-    $http.get('/vyraldb/' + id).success(function (response){
-      $scope.contact = response;
+    $http.get('/clients/' + id).success(function (response){
+      $scope.clients = response;
     });
   };
   $scope.update = function() {
-    console.log($scope.contact._id);
+    console.log($scope.user._id);
     $scope.show = false;
-    $http.put('/vyraldb/' + $scope.contact._id, $scope.contact).success(function(response){
-      $scope.contact = "";
+    $http.put('/clients/' + $scope.user._id, $scope.user).success(function(response){
+      $scope.clients = "";
       refresh();
     });
   };
 
   $scope.scrape = function(){
-url = $scope.contact.url;
+url = $scope.clients.url;
 
-    console.log($scope.contact.url);
+    console.log($scope.clients.url);
     request(url, function(error, response, html){
 
   		if(!error){

@@ -39,6 +39,31 @@
         </tbody>
       </table>
 
+
+
+      <table class="table">
+      <form name="scrapeform">
+      <thead>
+        <tr>
+        <th>
+          Enter to URL you would wish to scrape
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td><input type="text" class="form-control" ng-model="contact.scrape" name="url"></td>
+        <td><button class="btn btn-primary" ng-click="scrape()">Scrape Page</button></td>
+        </tr>
+        <tr ng-repeat="contact in contactlist">
+        <td>{{contact.url}}</td>
+
+        </tr>
+      </tbody>
+      </form>
+      </table>
+
+
 </div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
 
