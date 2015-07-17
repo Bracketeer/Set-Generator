@@ -26,17 +26,18 @@
     <!-- End of stupid header -->
 
       <!-- Inputs for client information -->
-      <div>
-
-          <form editable-form name="clientdata">
+      <div class="col-md-11">
+<!--
+          <form editable-form name="other" onbeforesave="update($Data, client.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
 
             <input type="text" name="name" class="form-control" ng-model="client.name" placeholder="Name">
             <input type="email" name="email" class="form-control" ng-model="client.email" placeholder="Email">
             <input type="tel" class="form-control" ng-model="client.number" name="phone" placeholder="Phone Number">
             <input type="text" class="form-control" ng-model="client.address" name="address" placeholder="Address">
 
-          </form>
 
+          </form> -->
+        </div>
         <div class="col-md-1">
 
           <button ng-hide="show" class="btn btn-teal" ng-click="addClient()">
@@ -63,8 +64,14 @@
 
             <tr ng-repeat="client in clientlist">
 
-              <td>{{client.name}}</td>
-              <td>{{client.email}}</td>
+              <td>
+                <span editable-text="client.name" e-name="name" e-form="rowform" onbeforesave="addClient()" e-required>
+                  {{client.name}}
+                </span>
+              </td>
+              <td>
+                  {{client.email}}
+              </td>
               <td>{{client.number}}</td>
               <td>{{client.address}}</td>
 
@@ -75,18 +82,34 @@
               </td>
 
               <td ng-hide="show">
-                <button class="btn btn-teal btn-fixed" ng-click="edit(client._id)">
+                <button class="btn btn-teal btn-fixed" ng-click="edit(client._id).$show()">
                   <span class="glyphicon glyphicon-pencil"></span>
                 </button>
               </td>
+
+              <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="addClient($http, client.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="rowform.$scope.update(data)">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$scope.cancel()" class="btn btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-danger" ng-click="remove(client._id)">del</button>
+        </div>
+      </td>
 
             </tr>
 
           </tbody>
         </table>
-
+<button class="btn btn-default" ng-click="addClient()">Add row</button>
       </div>
-    </div>
+
 
     <!-- Dependencies -->
 

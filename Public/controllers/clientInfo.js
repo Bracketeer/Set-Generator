@@ -34,7 +34,7 @@ refresh();
       console.log(response);
     });
   };
-  $scope.update = function() {
+  $scope.update = function(data) {
     console.log($scope.client._id);
     $scope.show = false;
     $http.put('/clientlist/' + $scope.client._id, $scope.client).success(function(response){
