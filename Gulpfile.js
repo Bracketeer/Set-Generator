@@ -4,51 +4,51 @@ gulp.task('express', function() {
   var express = require('express');
   var app = express();
   var mongojs = require('mongojs');
-  var db = mongojs('vyraldatabase', ['clients']);
+  var db = mongojs('clientlist', ['clientlist']);
   var bodyParser = require('body-parser');
 
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/Public'));
 
 // Request the contact list
-  app.get('/clients', function(req, res){
-    db.clients.find(function (err, docs){
+  app.get('/clientlist', function(req, res){
+    db.clientlist.find(function (err, docs){
       console.log(docs);
       res.json(docs);
     });
   });
 
 // Post to contact list
-  app.post('/clients', function (req, res){
+  app.post('/clientlist', function (req, res){
     console.log(req.body);
-    db.clients.insert(req.body, function(err, doc){
+    db.clientlist.insert(req.body, function(err, doc){
       res.json(doc);
     });
   });
 
 //Delete from contact list
-  app.delete('/clients/:id', function (req, res){
+  app.delete('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
-    db.clients.remove({_id: mongojs.ObjectId(id)}, function (err, doc){
+    db.clientlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc){
       res.json(doc);
     });
   });
 
 //Edit contact list
-  app.get('/clients/:id', function (req, res){
+  app.get('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
-    db.clients.findOne({_id: mongojs.ObjectId(id)}, function (err, doc){
+    db.clientlist.findOne({_id: mongojs.ObjectId(id)}, function (err, doc){
       res.json(doc);
     });
   });
 
 //Update contact list
-  app.put('/clients/:id', function (req, res){
+  app.put('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(req.body.name);
-    db.clients.findAndModify({query: {_id: mongojs.ObjectId(id)},
+    db.clientlist.findAndModify({query: {_id: mongojs.ObjectId(id)},
     update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
     new: true}, function (err, doc){
     res.json(doc);

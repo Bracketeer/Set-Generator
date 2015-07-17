@@ -1,32 +1,54 @@
 <!DOCTYPE>
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="app">
   <head>
     <meta charset="utf-8">
     <title>Vyral Workstation</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Vyral theme -->
     <link rel="stylesheet" href="/css/core.css">
   </head>
+
   <body>
-<div class="container" ng-controller="clientInfo">
+
+    <!-- For Looks, DO LATER: put in its own seperate header.html file -->
+
+    <div class="container" ng-controller="clientInfo">
       <div class="col-md-12 jumbotron">
+
         <h1>Vyral Workstation</h1>
         <h3>Add Client Presets</h3>
-</div>
-<div>
+
+      </div>
+
+    <!-- End of stupid header -->
+
+      <!-- Inputs for client information -->
+      <div>
+
           <form editable-form name="clientdata">
-              <input type="text" name="name" class="form-control" ng-model="clients.name" placeholder="Name">
-              <input type="email" name="email" class="form-control" ng-model="clients.email" placeholder="Email">
-              <input type="tel" class="form-control" ng-model="clients.number" name="phone" placeholder="Phone Number">
-              <input type="text" class="form-control" ng-model="clients.address" name="address" placeholder="Address">
+
+            <input type="text" name="name" class="form-control" ng-model="client.name" placeholder="Name">
+            <input type="email" name="email" class="form-control" ng-model="client.email" placeholder="Email">
+            <input type="tel" class="form-control" ng-model="client.number" name="phone" placeholder="Phone Number">
+            <input type="text" class="form-control" ng-model="client.address" name="address" placeholder="Address">
+
           </form>
+
         <div class="col-md-1">
-          <button ng-hide="show" class="btn btn-teal" ng-click="addClient()"><span class="glyphicon glyphicon-plus"></span></button>
-          <button ng-show="show" class="btn btn-teal" ng-click="update()"><span class="glyphicon glyphicon-ok"></span></button>
+
+          <button ng-hide="show" class="btn btn-teal" ng-click="addClient()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+
+          <button ng-show="show" class="btn btn-teal" ng-click="update()">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+
         </div>
+
         <table class="table table-bordered table-hover table-condensed">
           <thead>
             <tr>
@@ -38,71 +60,40 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="clients in vyraldatabase">
-              <td>{{clients.name}}</td>
-              <td>{{clients.email}}</td>
-              <td>{{clients.number}}</td>
-              <td>{{clients.address}}</td>
-              <td ng-show="show"><button class="btn btn-red btn-fixed" ng-click="remove(user._id)"><span class="glyphicon glyphicon-remove"></span></button></td>
-              <td ng-hide="show"><button class="btn btn-teal btn-fixed" ng-click="editableForm.$show(user._id)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+
+            <tr ng-repeat="client in clientlist">
+
+              <td>{{client.name}}</td>
+              <td>{{client.email}}</td>
+              <td>{{client.number}}</td>
+              <td>{{client.address}}</td>
+
+              <td ng-show="show">
+                <button class="btn btn-red btn-fixed" ng-click="remove(client._id)">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </td>
+
+              <td ng-hide="show">
+                <button class="btn btn-teal btn-fixed" ng-click="edit(client._id)">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+              </td>
+
             </tr>
+
           </tbody>
         </table>
 
-</div>
-      <!-- <div ng-controller="EditableRowCtrl">
-  <table class="table table-bordered table-hover table-condensed">
-    <tr style="font-weight: bold">
-      <td style="width:35%">Name</td>
-      <td style="width:20%">Status</td>
-      <td style="width:20%">Group</td>
-      <td style="width:25%">Edit</td>
-    </tr>
-    <tr ng-repeat="user in users">
-      <td> -->
-        <!-- editable username (text with validation) -->
-        <!-- <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required>
-          {{ user.name || 'empty' }}
-        </span>
-      </td>
-      <td> -->
-        <!-- editable status (select-local) -->
-        <!-- <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
-          {{ showStatus(user) }}
-        </span>
-      </td>
-      <td> -->
-        <!-- editable group (select-remote) -->
-        <!-- <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
-          {{ showGroup(user) }}
-        </span>
-      </td>
-      <td style="white-space: nowrap"> -->
-        <!-- form -->
-        <!-- <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
-          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-            save
-          </button>
-          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-            cancel
-          </button>
-        </form>
-        <div class="buttons" ng-show="!rowform.$visible">
-          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-danger" ng-click="removeUser($index)">del</button>
-        </div>
-      </td>
-    </tr>
-  </table>
-
-  <button class="btn btn-default" ng-click="addUser()">Add row</button> -->
-<!-- </div> -->
-
+      </div>
     </div>
+
+    <!-- Dependencies -->
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
     <script type="text/javascript" src="controllers/clientInfo.js"></script>
+    <script type="text/javascript" src="controllers/xeditable.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="controllers/xeditable.js"></script>
   </body>
 </html>
