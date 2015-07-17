@@ -13,7 +13,7 @@
 
   <body>
 
-    <!-- For Looks, DO LATER: put in its own seperate header.html file -->
+    <!-- For Looks, DO LATER: put in its own seperate header.html file and put a navbar in there -->
 
     <div class="container" ng-controller="clientInfo">
       <div class="col-md-12 jumbotron">
@@ -65,35 +65,35 @@
             <tr ng-repeat="client in clientlist">
 
               <td>
-                <span editable-text="client.name" e-name="name" e-form="rowform" onbeforesave="addClient()" e-required>
+                <span editable-text="client.name" e-name="name" e-form="rowform"  e-required>
                   {{client.name}}
                 </span>
               </td>
               <td>
+                <span editable-text="client.email" e-name="email" e-form="rowform" e-required>
                   {{client.email}}
+                </span>
               </td>
-              <td>{{client.number}}</td>
-              <td>{{client.address}}</td>
+              <td>
+                <span editable-text="client.number" e-name="number" e-form="rowform" e-required>
+                  {{client.number}}
+                </span>
+              </td>
+              <td>
+                <span editable-text="client.address" e-name="address" e-form="rowform" e-required>
+                  {{client.address}}
+                </span>
+              </td>
 
-              <td ng-show="show">
-                <button class="btn btn-red btn-fixed" ng-click="remove(client._id)">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </button>
-              </td>
-
-              <td ng-hide="show">
-                <button class="btn btn-teal btn-fixed" ng-click="edit(client._id).$show()">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-              </td>
+              
 
               <td style="white-space: nowrap">
         <!-- form -->
-        <form editable-form name="rowform" onbeforesave="addClient($http, client.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
-          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="rowform.$scope.update(data)">
+        <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, id)" class="form-buttons form-inline" shown="inserted == client">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="rowform.$scope.update()">
             save
           </button>
-          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$scope.cancel()" class="btn btn-default">
+          <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$scope.cancel()">
             cancel
           </button>
         </form>

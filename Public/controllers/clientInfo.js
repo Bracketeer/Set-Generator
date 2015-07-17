@@ -2,17 +2,17 @@ var app = angular.module('app',["xeditable"]);
 app.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 
   var refresh = function(){
-    $http.get('/clientlist').success(function(response){
-    console.log(response);
-    $scope.clientlist = response;
+    $http.get('/clientlist').success(function(data){
+    console.log(data);
+    $scope.clientlist = data;
   });
 };
 refresh();
 
   $scope.addClient = function(){
     console.log($scope.client);
-    $http.post('/clientlist', $scope.client).success(function(response){
-      console.log(response);
+    $http.post('/clientlist', $scope.client).success(function(data){
+      console.log(data);
       $scope.client = "";
       refresh();
     });
@@ -21,7 +21,7 @@ refresh();
   $scope.remove = function(id) {
     console.log(id);
     $scope.show = false;
-    $http.delete('/clientlist/' + id).success(function(response){
+    $http.delete('/clientlist/' + id).success(function(data){
       $scope.client = "";
       refresh();
     });
@@ -29,20 +29,24 @@ refresh();
   $scope.edit = function(id) {
     console.log(id);
     $scope.show = true;
-    $http.get('/clientlist/' + id).success(function (response){
-      $scope.client = response;
-      console.log(response);
+    $http.get('/clientlist/' + id).success(function (data){
+      $scope.client = data;
+      console.log(data);
     });
   };
-  $scope.update = function() {
+  $scope.update = function(data, id) {
+    angular.extend(data, {id: id});
+    return $http.post('/clientlist', data);
     console.log($scope.client._id);
     $scope.show = false;
-    $http.put('/clientlist/' + $scope.client._id, $scope.client).success(function(response){
-      $scope.client = "";
-      refresh();
-    });
+    // $http.put('/clientlist/' + $scope.client._id, $scope.client).success(function(response){
+    //   $scope.client = "";
+    //   refresh();
+    // });
   };
-
+  $scope.cancel = function(){
+    $scope.show = false;
+  };
 //Web Scrapping function that I might get working someday
 
 //   $scope.scrape = function(){
