@@ -1,6 +1,20 @@
 var app = angular.module('app',["xeditable"]);
 app.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 
+//Load Clientlist into DOM
+// $scope.clients = [];
+// $scope.loadClients = function(){
+//   return $scope.clients.length ? null : $http.get('/clientlist').success(function(data) {
+//       $scope.clients = data;
+//       console.log('This is the scope client data:' + data);
+//     });
+// };
+// $scope.loadClients();
+// console.log('This is the scope client data:' + $scope.clients);
+//
+
+// Working Clientlist load script
+
   var refresh = function(){
     $http.get('/clientlist').success(function(data){
     console.log(data);
@@ -9,14 +23,28 @@ app.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 };
 refresh();
 
+
+
   $scope.addClient = function(){
     console.log($scope.client);
     $http.post('/clientlist', $scope.client).success(function(data){
       console.log(data);
       $scope.client = "";
       refresh();
+      // $scope.loadClients();
     });
   };
+
+  // //Remove Client Script
+  // $scope.remove = function(index) {
+  //   console.log(index);
+  //   $scope.client.splice( $scope.client.indexOf(client), 1 );
+  //   // $http.delete('/clientlist/' + id).success(function(data){
+  //   //   console.log($scope.remove);
+  //   // });
+  // };
+
+  // Working Remove Client Script
 
   $scope.remove = function(id) {
     console.log(id);
@@ -26,6 +54,7 @@ refresh();
       refresh();
     });
   };
+
   $scope.edit = function(id) {
     console.log(id);
     $scope.show = true;
@@ -34,16 +63,20 @@ refresh();
       console.log(data);
     });
   };
+
   $scope.update = function(data, id) {
     angular.extend(data, {id: id});
-    return $http.post('/clientlist', data);
-    console.log($scope.client._id);
-    $scope.show = false;
+    return $http.put('/clientlist/', data);
+    console.log(data);
+      refresh();
+      $scope.show = false;
+    };
+
     // $http.put('/clientlist/' + $scope.client._id, $scope.client).success(function(response){
     //   $scope.client = "";
-    //   refresh();
+
     // });
-  };
+  //};
   $scope.cancel = function(){
     $scope.show = false;
   };

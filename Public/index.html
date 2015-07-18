@@ -85,12 +85,12 @@
                 </span>
               </td>
 
-              
+
 
               <td style="white-space: nowrap">
         <!-- form -->
         <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, id)" class="form-buttons form-inline" shown="inserted == client">
-          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="rowform.$scope.update()">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="rowform.$scope.update(data)">
             save
           </button>
           <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$scope.cancel()">
