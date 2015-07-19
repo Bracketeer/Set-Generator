@@ -40,13 +40,13 @@
         </div>
         <div class="col-md-1">
 
-          <button ng-hide="show" class="btn btn-teal" ng-click="addClient()">
+          <!-- <button ng-hide="show" class="btn btn-teal" ng-click="addClient()">
             <span class="glyphicon glyphicon-plus"></span>
           </button>
 
           <button ng-show="show" class="btn btn-teal" ng-click="update()">
             <span class="glyphicon glyphicon-ok"></span>
-          </button>
+          </button> -->
 
         </div>
 
@@ -65,22 +65,22 @@
             <tr ng-repeat="client in clientlist">
 
               <td>
-                <span editable-text="client.name" e-name="name" e-form="rowform"  e-required>
+                <span editable-text="client.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, client.id)"  e-required>
                   {{client.name}}
                 </span>
               </td>
               <td>
-                <span editable-text="client.email" e-name="email" e-form="rowform" e-required>
+                <span editable-text="client.email" e-name="email" e-form="rowform" onbeforesave="checkEmail($data, client.id)" e-required>
                   {{client.email}}
                 </span>
               </td>
               <td>
-                <span editable-text="client.number" e-name="number" e-form="rowform" e-required>
-                  {{client.number}}
+                <span editable-text="client.phone" e-name="phone" e-form="rowform" onbeforesave="checkPhone($data, client.id)" e-required>
+                  {{client.phone}}
                 </span>
               </td>
               <td>
-                <span editable-text="client.address" e-name="address" e-form="rowform" e-required>
+                <span editable-text="client.address" e-name="address" e-form="rowform" onbeforesave="CheckAddress($data, client.id)" e-required>
                   {{client.address}}
                 </span>
               </td>
@@ -90,10 +90,10 @@
               <td style="white-space: nowrap">
         <!-- form -->
         <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, id)" class="form-buttons form-inline" shown="inserted == client">
-          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="rowform.$scope.update(data)">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
             save
           </button>
-          <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$scope.cancel()">
+          <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$cancel()">
             cancel
           </button>
         </form>

@@ -1,6 +1,61 @@
 var app = angular.module('app',["xeditable"]);
 app.controller('clientInfo', ['$scope', '$http', function($scope, $http){
 
+//Xeditable controller code
+$scope.groups = [];
+  $scope.loadGroups = function() {
+    return $scope.groups.length ? null : $http.get('/groups').success(function(data) {
+      $scope.groups = data;
+    });
+  };
+
+  $scope.showGroup = function(user) {
+    if(user.group && $scope.groups.length) {
+      var selected = $filter('filter')($scope.groups, {id: user.group});
+      return selected.length ? selected[0].text : 'Not set';
+    } else {
+      return user.groupName || 'Not set';
+    }
+  };
+
+  $scope.showStatus = function(user) {
+    var selected = [];
+    if(user.status) {
+      selected = $filter('filter')($scope.statuses, {value: user.status});
+    }
+    return selected.length ? selected[0].text : 'Not set';
+  };
+
+  $scope.checkName = function(data, id) {
+    if (id === 2 && data !== 'awesome') {
+      return "Username 2 should be `awesome`";
+    }
+  };
+
+  $scope.saveUser = function(data, id) {
+    //$scope.user not updated yet
+    angular.extend(data, {id: id});
+    return $http.post('/saveUser', data);
+  };
+
+  // remove user
+  $scope.removeUser = function(index) {
+    $scope.users.splice(index, 1);
+  };
+
+  // add user
+  $scope.addUser = function() {
+    $scope.inserted = {
+      id: $scope.users.length+1,
+      name: '',
+      status: null,
+      group: null
+    };
+    $scope.users.push($scope.inserted);
+  };
+  //
+
+
 //Load Clientlist into DOM
 // $scope.clients = [];
 // $scope.loadClients = function(){
@@ -25,15 +80,15 @@ refresh();
 
 
 
-  $scope.addClient = function(){
-    console.log($scope.client);
-    $http.post('/clientlist', $scope.client).success(function(data){
-      console.log(data);
-      $scope.client = "";
-      refresh();
-      // $scope.loadClients();
-    });
-  };
+  // $scope.addClient = function(){
+  //   console.log($scope.client);
+  //   $http.post('/clientlist', $scope.client).success(function(data){
+  //     console.log(data);
+  //     $scope.client = "";
+  //     refresh();
+  //     // $scope.loadClients();
+  //   });
+  // };
 
   // //Remove Client Script
   // $scope.remove = function(index) {
@@ -58,27 +113,41 @@ refresh();
   $scope.edit = function(id) {
     console.log(id);
     $scope.show = true;
-    $http.get('/clientlist/' + id).success(function (data){
-      $scope.client = data;
+    $http.get('/clientlist/' + id).success(function (response){
+      $scope.client = response;
       console.log(data);
     });
   };
 
   $scope.update = function(data, id) {
     angular.extend(data, {id: id});
-    return $http.put('/clientlist/', data);
-    console.log(data);
-      refresh();
-      $scope.show = false;
+    return $http.post('/clientlist/', data);
+    console.log(data, id);
     };
 
+    $scope.show = function(id) {
+      console.log(id);
+      $scope.show = true;
+      $http.get('/clientlist/' + id).success(function (response){
+        $scope.client = response;
+        console.log(data);
+      });
+    };
     // $http.put('/clientlist/' + $scope.client._id, $scope.client).success(function(response){
     //   $scope.client = "";
 
     // });
   //};
-  $scope.cancel = function(){
-    $scope.show = false;
+
+  $scope.addClient = function() {
+    $scope.inserted = {
+      id: $scope.clientlist.length+1,
+      name: '',
+      email: '',
+      phone: '',
+      address: ''
+    };
+    $scope.clientlist.push($scope.inserted);
   };
 //Web Scrapping function that I might get working someday
 

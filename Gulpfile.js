@@ -20,6 +20,7 @@ gulp.task('express', function() {
 
 // Post to contact list
   app.post('/clientlist', function (req, res){
+    var id = req.params.id;
     console.log(req.body);
     db.clientlist.insert(req.body, function(err, doc){
       res.json(doc);
@@ -49,7 +50,7 @@ gulp.task('express', function() {
     var id = req.params.id;
     console.log(req.body.name);
     db.clientlist.findAndModify({query: {_id: mongojs.ObjectId(id)},
-    update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
+    update: {$set: {name: req.body.name, email: req.body.email, phone: req.body.phone, address: req.body.address}},
     new: true}, function (err, doc){
     res.json(doc);
     });
