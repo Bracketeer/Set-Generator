@@ -3,7 +3,7 @@
 <html ng-app="app">
   <head>
     <meta charset="utf-8">
-    <title>Vyral Workstation</title>
+    <title>Awesome Workstation</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -18,7 +18,7 @@
     <div class="container" ng-controller="clientInfo">
       <div class="col-md-12 jumbotron">
 
-        <h1>Vyral Workstation</h1>
+        <h1>Awesome Workstation</h1>
         <h3>Add Client Presets</h3>
 
       </div>
@@ -65,22 +65,22 @@
             <tr ng-repeat="client in clientlist">
 
               <td>
-                <span editable-text="client.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, client.id)"  e-required>
+                <span editable-text="client.name" ng-show="!rowform.$visible" e-name="name" e-form="rowform" e-required>
                   {{client.name}}
                 </span>
               </td>
               <td>
-                <span editable-text="client.email" e-name="email" e-form="rowform" onbeforesave="checkEmail($data, client.id)" e-required>
+                <span editable-text="client.email" ng-show="!rowform.$visible" e-name="email" e-form="rowform" e-required>
                   {{client.email}}
                 </span>
               </td>
               <td>
-                <span editable-text="client.phone" e-name="phone" e-form="rowform" onbeforesave="checkPhone($data, client.id)" e-required>
+                <span editable-text="client.phone" ng-show="!rowform.$visible" e-name="phone" e-form="rowform" e-required>
                   {{client.phone}}
                 </span>
               </td>
               <td>
-                <span editable-text="client.address" e-name="address" e-form="rowform" onbeforesave="CheckAddress($data, client.id)" e-required>
+                <span editable-text="client.address" ng-show="!rowform.$visible" e-name="address" e-form="rowform" e-required>
                   {{client.address}}
                 </span>
               </td>
@@ -89,7 +89,7 @@
 
               <td style="white-space: nowrap">
         <!-- form -->
-        <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, id)" class="form-buttons form-inline" shown="inserted == client">
+        <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, client.id)" class="form-buttons form-inline" shown="inserted == client">
           <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
             save
           </button>

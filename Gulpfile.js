@@ -3,6 +3,8 @@ var gulp = require('gulp');
 gulp.task('express', function() {
   var express = require('express');
   var app = express();
+  var mongoose = require('mongoose');
+  mongoose.connect('mongodb://localhost/clientlist');
   var mongojs = require('mongojs');
   var db = mongojs('clientlist', ['clientlist']);
   var bodyParser = require('body-parser');
@@ -10,7 +12,7 @@ gulp.task('express', function() {
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/Public'));
 
-// Request the contact list
+// Request the client list
   app.get('/clientlist', function(req, res){
     db.clientlist.find(function (err, docs){
       console.log(docs);
@@ -18,7 +20,7 @@ gulp.task('express', function() {
     });
   });
 
-// Post to contact list
+// Post to client list
   app.post('/clientlist', function (req, res){
     var id = req.params.id;
     console.log(req.body);
@@ -27,7 +29,7 @@ gulp.task('express', function() {
     });
   });
 
-//Delete from contact list
+//Delete from client list
   app.delete('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
@@ -36,7 +38,7 @@ gulp.task('express', function() {
     });
   });
 
-//Edit contact list
+//Edit client list
   app.get('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
@@ -45,7 +47,7 @@ gulp.task('express', function() {
     });
   });
 
-//Update contact list
+//Update client list
   app.put('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(req.body.name);
