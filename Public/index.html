@@ -13,7 +13,7 @@
 
   <body>
 
-    <!-- For Looks, DO LATER: put in its own seperate header.html file and put a navbar in there -->
+    <!-- For Looks. DO LATER: put in its own seperate header.html file and put a navbar in there -->
 
     <div class="container" ng-controller="clientInfo">
       <div class="col-md-12 jumbotron">
@@ -25,31 +25,7 @@
 
     <!-- End of stupid header -->
 
-      <!-- Inputs for client information -->
-      <div class="col-md-11">
-<!--
-          <form editable-form name="other" onbeforesave="update($Data, client.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
-
-            <input type="text" name="name" class="form-control" ng-model="client.name" placeholder="Name">
-            <input type="email" name="email" class="form-control" ng-model="client.email" placeholder="Email">
-            <input type="tel" class="form-control" ng-model="client.number" name="phone" placeholder="Phone Number">
-            <input type="text" class="form-control" ng-model="client.address" name="address" placeholder="Address">
-
-
-          </form> -->
-        </div>
-        <div class="col-md-1">
-
-          <!-- <button ng-hide="show" class="btn btn-teal" ng-click="addClient()">
-            <span class="glyphicon glyphicon-plus"></span>
-          </button>
-
-          <button ng-show="show" class="btn btn-teal" ng-click="update()">
-            <span class="glyphicon glyphicon-ok"></span>
-          </button> -->
-
-        </div>
-
+      <!-- Table to display database -->
         <table class="table table-bordered table-hover table-condensed">
           <thead>
             <tr>
@@ -61,9 +37,7 @@
             </tr>
           </thead>
           <tbody>
-
             <tr ng-repeat="client in clientlist">
-
               <td>
                 <span editable-text="client.name" ng-show="!rowform.$visible" e-name="name" e-form="rowform" e-required>
                   {{client.name}}
@@ -84,33 +58,40 @@
                   {{client.address}}
                 </span>
               </td>
-
-
-
               <td style="white-space: nowrap">
-        <!-- form -->
-        <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, client.id)" class="form-buttons form-inline" shown="inserted == client">
-          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-            save
-          </button>
-          <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$cancel()">
-            cancel
-          </button>
-        </form>
-        <div class="buttons" ng-show="!rowform.$visible">
-          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-danger" ng-click="remove(client._id)">del</button>
-        </div>
-      </td>
 
+                <!-- Form for inline editing -->
+                <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, client.id)" class="form-buttons form-inline" shown="inserted == client">
+
+                  <!-- Save Button -->
+                  <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                    save
+                  </button>
+
+                  <!-- Cancel button -->
+                  <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$cancel()">
+                    cancel
+                  </button>
+
+                </form>
+
+<
+                <div class="buttons" ng-show="!rowform.$visible">
+                  <button class="btn btn-primary" ng-click="rowform.$show()">
+                    edit
+                  </button>
+                  <button class="btn btn-danger" ng-click="remove(client._id)">
+                    del
+                  </button>
+                </div>
+              </td>
             </tr>
-
           </tbody>
         </table>
-<button class="btn btn-default" ng-click="addClient()">Add row</button>
+
+        <!-- Add row to table button -->
+        <button class="btn btn-default" ng-click="addClient()">Add row</button>
       </div>
-
-
     <!-- Dependencies -->
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
