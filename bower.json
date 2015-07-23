@@ -1,0 +1,26 @@
+{
+  "name": "Set-Generator",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Bracketeer/Set-Generator",
+  "authors": [
+    "Bryce Stradling <bryce@getvyral.com>"
+  ],
+  "description": "it's a web scrapper",
+  "main": "gulpfile.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "express",
+    "monogdb",
+    "angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
