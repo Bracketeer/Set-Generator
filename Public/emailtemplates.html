@@ -8,28 +8,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
+    <!--personal style sheet-->
     <link rel="stylesheet" href="/css/core.css">
   </head>
   <body>
-    <div class="jumbotron">
-    <h1>Vyral Workstation</h1>
-    <h3>Email Templater</h3>
-    </div>
-    <input class="form-control" type="text" ng-model="vyraldb.template">
-    <button class="btn btn-primary" ng-click="addTemplate">New Template</button>
+
+
+<div class="container" ng-controller="emailtemplates">
+  <div class="jumbotron col-lg-6-offset-by-4">
+  <h1>Vyral Workstation</h1>
+  <h3>Email Templater</h3>
+  </div>
     <table class="table">
-    <tr class="container" ng-controller="emailtemplates" ng-repeat="template in templatelist">
-    <td>{{emailtemplates.html.template}}</td>
+      <thead>
+        <th>Templates</th>
+        <th></th>
+      </thead>
+      <tbody>
+    <tr>
+
+      <td><input class="form-control" type="text"></td>
+      <td><button class="btn btn-primary" ng-click="addTemplate()" type="submit">New Template</button></td>
+  <tr ng-repeat="template in templatelist">
+    <td>{{template}}</td>
   </tr>
+</tbody>
 </table>
-
-
-
+</div>
 </div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-
     <script type="text/javascript" src="controllers/emailtemplates.js"></script>
-
   </body>
 </html>

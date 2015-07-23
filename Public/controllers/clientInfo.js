@@ -1,80 +1,41 @@
-var myApp = angular.module('myApp',[]);
-myApp.controller('clientInfo', ['$scope', '$http', function($scope, $http){
+var app = angular.module('app',["xeditable"]);
+app.controller('clientInfo', ['$scope', '$filter', '$http', function($scope, $filter, $http){
 
+// Load or refresh the database into the DOM on page initiation
   var refresh = function(){
-    $http.get('/vyraldb').success(function(response){
-    console.log('I got the data I requested');
-    $scope.contactlist = response;
+    $http.get('/clientlist').success(function(data){
+    $scope.clientlist = data;
+    console.log('Database loaded! :)');
+    console.table(data);
   });
 };
 refresh();
-  $scope.addContact = function(){
-    console.log($scope.contact);
-    $http.post('/vyraldb', $scope.contact).success(function(response){
-      console.log(response);
-      $scope.contact = "";
-      refresh();
-    });
-  };
+// Remove Client from Database
   $scope.remove = function(id) {
-    console.log(id);
     $scope.show = false;
-    $http.delete('/vyraldb/' + id).success(function(response){
-      $scope.contact = "";
-      refresh();
-    });
-  };
-  $scope.edit = function(id) {
-    console.log(id);
-    $scope.show = true;
-    $http.get('/vyraldb/' + id).success(function (response){
-      $scope.contact = response;
-    });
-  };
-  $scope.update = function() {
-    console.log($scope.contact._id);
-    $scope.show = false;
-    $http.put('/vyraldb/' + $scope.contact._id, $scope.contact).success(function(response){
-      $scope.contact = "";
+    $http.delete('/clientlist/' + id).success(function(data){
       refresh();
     });
   };
 
-  $scope.scrape = function(){
-url = $scope.contact.url;
+// Update Client Variables
+// TO DO: Whenever a a client profile is updated, it doesn't overwrite the current profile, it makes an entire new one and, therefore, keeps the old data as well.
+$scope.update = function(data, id) {
+  angular.extend(data, {id: id});
+  console.log(data);
+  return $http.post('/clientlist/', data);
+  };
 
-    console.log($scope.contact.url);
-    request(url, function(error, response, html){
+// Add empty input fields to be filled when a new row is added
+//TO DO: There is a bug where when a row is added and cancel is hit, the row remains until page refresh. hitting delete on that row wont work until the page is refreshed, too.
+  $scope.addClient = function(id) {
+    $scope.inserted = {
+      name: '',
+      email: '',
+      phone: '',
+      address: ''
+    };
+    $scope.clientlist.push($scope.inserted);
+  };
 
-  		if(!error){
-
-  			var title, name, link;
-  			var json = { title : "", name : "", link : ""};
-
-  			$('.headline').filter(function(){
-  		        var data = $(this);
-  		        title = data.text();
-  		        json.title = title;
-              })
-
-  			$('.container').filter(function(){
-  		        var data = $(this);
-  		        name = data.find().last().text();
-  		        json.name = name;
-  		        json.link = link;
-  	        })
-  		}
-
-  		fs.appendFile('output.json', JSON.stringify(json, null, 4), function(err){
-          	console.log('File successfully written! - Check your project directory for the output.json file');
-          	console.log(title);
-          	console.log(name);
-          	console.log(url);
-          })
-
-          res.send('<a href="'+ url +'">'+ title +'</a><br /><br />');
-          fs.appendFile('emaillist.txt','<a href="'+ url +' target="_blank">'+ title +'</a>', function(err){});
-
-  	});
-};
 }]);

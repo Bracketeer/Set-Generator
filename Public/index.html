@@ -1,90 +1,132 @@
 <!DOCTYPE>
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="app">
   <head>
     <meta charset="utf-8">
-    <title>Vyral Workstation</title>
+    <title>Awesome Workstation</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
+    <!-- Vyral theme -->
     <link rel="stylesheet" href="/css/core.css">
   </head>
+
   <body>
-    <div class="jumbotron">
-    <h1>Vyral Workstation</h1>
-    <h3>Add Client Presets</h3>
+
+    <!-- For Looks. DO LATER: put in its own seperate header.html file and put a navbar in there -->
+
+    <div class="container">
+      <div class="col-md-12 jumbotron">
+
+        <h1>Awesome Workstation</h1>
+        <h3>Add Client Presets</h3>
+
+      </div>
+
+    <!-- End of stupid header -->
+
+      <!-- Table to display database -->
+      <div ng-controller="clientInfo">
+        <table class="table table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Number</th>
+              <th>Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="client in clientlist">
+              <td>
+                <span editable-text="client.name" ng-show="!rowform.$visible" e-name="name" e-form="rowform" e-required>
+                  {{client.name}}
+                </span>
+              </td>
+              <td>
+                <span editable-text="client.email" ng-show="!rowform.$visible" e-name="email" e-form="rowform" e-required>
+                  {{client.email}}
+                </span>
+              </td>
+              <td>
+                <span editable-text="client.phone" ng-show="!rowform.$visible" e-name="phone" e-form="rowform" e-required>
+                  {{client.phone}}
+                </span>
+              </td>
+              <td>
+                <span editable-text="client.address" ng-show="!rowform.$visible" e-name="address" e-form="rowform" e-required>
+                  {{client.address}}
+                </span>
+              </td>
+              <td style="white-space: nowrap">
+
+                <!-- Form for inline editing -->
+                <form editable-form name="rowform" ng-show="rowform.$visible" onbeforesave="update($data, client.id)" class="form-buttons form-inline" shown="inserted == client">
+
+                  <!-- Save Button -->
+                  <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                    save
+                  </button>
+
+                  <!-- Cancel button -->
+                  <button type="button" ng-disabled="rowform.$waiting" class="btn btn-default" ng-click="rowform.$cancel()">
+                    cancel
+                  </button>
+
+                </form>
+
+                <div class="buttons" ng-show="!rowform.$visible">
+                  <button class="btn btn-primary" ng-click="rowform.$show()">
+                    edit
+                  </button>
+                  <button class="btn btn-danger" ng-click="remove(client._id)">
+                    del
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Add row to table button -->
+        <button class="btn btn-default" ng-click="addClient()">Add row</button>
+      </div><br>
+      <!-- Wepage scrapper -->
+      <div ng-controller="MainCtrl">
+  <h4>Upload file to be scrapped</h4>
+  <span class="btn btn-default btn-file">Upload
+    <input type="file" on-read-file="showContent($fileContent)" />
+  </span>
+    <div ng-if="content">
+        <h2>File content is:</h2>
+        <pre id="content">{{ content }}</pre>
     </div>
-    <div class="container" ng-controller="clientInfo">
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Number</th>
-            <th>Address</th>
-            <th>Primary Color</th>
-            <th>Secondary Color</th>
-            <th>Action</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <form name="contactform">
-            <td><input type="text" name="name" class="form-control" ng-model="contact.name"></td>
-            <td><input type="email" name="email" class="form-control" ng-model="contact.email"></td>
-            <td><input type="tel" class="form-control" ng-model="contact.number" name="phone"></td>
-            <td><input type="text" class="form-control" ng-model="contact.address" name="address"></td>
-
-
-
-            <td><input type="color" class="form-control color" ng-model="contact.color" name="color"></td>
-            <td><input type="color" class="form-control color" ng-model="contact.color2" name="color"></td>
-            <td ng-hide="show"><button class="btn btn-primary btn-fixed" ng-click="addContact()">Add Contact</button></td>
-            <td ng-show="show"><button class="btn btn-info btn-fixed" ng-click="update()">Update</button></td>
-          </form>
-          </tr>
-          <tr ng-repeat="contact in contactlist">
-            <td>{{contact.name}}</td>
-            <td>{{contact.email}}</td>
-            <td>{{contact.number}}</td>
-            <td>{{contact.address}}</td>
-            <td>{{contact.color}}</td>
-            <td>{{contact.color2}}</td>
-            <td ng-show="show"><button class="btn btn-danger btn-fixed" ng-click="remove(contact._id)">Remove</button></td>
-            <td ng-hide="show"><button class="btn btn-warning btn-fixed" ng-click="edit(contact._id)">Edit</button></td>
-          </tr>
-        </tbody>
-      </table>
-<table class="table">
-<form name="scrapeform">
-<thead>
-  <tr>
-  <th>
-    Enter to URL you would wish to scrape
-  </th>
-</tr>
-</thead>
-<tbody>
-  <tr>
-  <td><input type="text" class="form-control" ng-model="contact.scrape" name="url"></td>
-  <td><button class="btn btn-primary" ng-click="scrape()">Scrape Page</button></td>
-  </tr>
-  <tr ng-repeat="contact in contactlist">
-  <td>{{contact.url}}</td>
-
-  </tr>
-</tbody>
-</form>
-</table>
 </div>
+<div ng-controller="webscrapper">
+<!-- <ng-csv-import content="csv.content"
+    header="csv.header"
+    separator="csv.separator"
+    result="csv.result"></ng-csv-import> -->
+    <form class="form-inline">
+<input type="url" class="form-control" ng-model="scrape.url" name="url">
+<button type="submit" class="btn btn-default" ng-click="scrape(url)">Submit</button>
+</form>
+      <!-- <input type="file" file-change="handler($event,files)" ng-model="MyFiles" /> -->
+        <div class="md-col-12" ng-repeat="url in clientlist">
+          {{scope.name}}
+          {{scope.url}}
+          {{scope.title}}
+        </div>
+      </div>
+</div>
+    <!-- Dependencies -->
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-    </script>
     <script type="text/javascript" src="controllers/clientInfo.js"></script>
-    <script type="text/javascript" src="controllers/email_templates.js"></script>
+    <script type="text/javascript" src="controllers/webscrapper.js"></script>
+    <script type="text/javascript" src="controllers/xeditable.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   </body>
 </html>

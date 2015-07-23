@@ -3,60 +3,163 @@ var gulp = require('gulp');
 gulp.task('express', function() {
   var express = require('express');
   var app = express();
+  var fs = require('fs');
+  var mongoose = require('mongoose');
+  mongoose.connect('mongodb://localhost/clientlist');
   var mongojs = require('mongojs');
-  var db = mongojs('contactlist', ['contactlist']);
+  var db = mongojs('clientlist', ['clientlist']);
   var bodyParser = require('body-parser');
-
+  var request = require('request');
+  var cheerio = require('cheerio');
+  var path	= require('path');
 
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/Public'));
 
-// Request the contact list
-  app.get('/contactlist', function(req, res){
-    db.contactlist.find(function (err, docs){
+// Request the client list
+  app.get('/clientlist', function(req, res){
+    db.clientlist.find(function (err, docs){
       console.log(docs);
       res.json(docs);
     });
   });
 
-// Post to contact list
-  app.post('/contactlist', function (req, res){
+// Post to client list
+  app.post('/clientlist', function (req, res){
+    var id = req.params.id;
     console.log(req.body);
-    db.contactlist.insert(req.body, function(err, doc){
+    db.clientlist.insert(req.body, function(err, doc){
       res.json(doc);
     });
   });
 
-//Delete from contact list
-  app.delete('/contactlist/:id', function (req, res){
+//Delete from client list
+  app.delete('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
-    db.contactlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc){
+    db.clientlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc){
       res.json(doc);
     });
   });
 
-//Edit contact list
-  app.get('/contactlist/:id', function (req, res){
+//Edit client list
+  app.get('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(id);
-    db.contactlist.findOne({_id: mongojs.ObjectId(id)}, function (err, doc){
+    db.clientlist.findOne({_id: mongojs.ObjectId(id)}, function (err, doc){
       res.json(doc);
     });
   });
 
-//Update contact list
-  app.put('/contactlist/:id', function (req, res){
+//Update client list
+  app.put('/clientlist/:id', function (req, res){
     var id = req.params.id;
     console.log(req.body.name);
-    db.contactlist.findAndModify({query: {_id: mongojs.ObjectId(id)},
-    update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
+    db.clientlist.findAndModify({query: {_id: mongojs.ObjectId(id)},
+    update: {$set: {name: req.body.name, email: req.body.email, phone: req.body.phone, address: req.body.address}},
     new: true}, function (err, doc){
     res.json(doc);
     });
   });
 
+  //webscrapper
+  app.get('/scrape', function(req, res){
+
+  var url = [
+  'http://p0.vresp.com/QDrEhK',
+  'http://p0.vresp.com/StxOiT',
+  'http://p0.vresp.com/S6GWpc',
+  'http://p0.vresp.com/wyzw3V',
+  'http://p0.vresp.com/7iKmoB',
+  'http://p0.vresp.com/cS9fdu',
+  'http://p0.vresp.com/algKnq',
+  'http://p0.vresp.com/AAE3fc',
+  'http://p0.vresp.com/TuSne9',
+  'http://p0.vresp.com/KPTglD',
+  'http://p0.vresp.com/rbuhmc',
+  'http://p0.vresp.com/F1KZ3c',
+  'http://p0.vresp.com/5wYGwE',
+  'http://p0.vresp.com/EYLBJf',
+  'http://p0.vresp.com/aMaLaN',
+  'http://p0.vresp.com/PibwYP',
+  'http://p0.vresp.com/x9ilhB',
+  'http://p0.vresp.com/0tfWcX',
+  'http://p0.vresp.com/f63dxZ',
+  'http://p0.vresp.com/urCKWn',
+  'http://p0.vresp.com/H3Tn6Y',
+  'http://p0.vresp.com/INaoZV',
+  'http://p0.vresp.com/Yx1GD9',
+  'http://p0.vresp.com/zggwYq',
+  'http://p0.vresp.com/0Vyz7A',
+  'http://p0.vresp.com/5U4LiP',
+  'http://p0.vresp.com/RQPyLJ',
+  'http://p0.vresp.com/x6PAi0',
+  'http://p0.vresp.com/ig0LaF',
+  'http://p0.vresp.com/StxOiT',
+  'http://p0.vresp.com/2l1VXh',
+  'http://p0.vresp.com/QKAzaN',
+  'http://p0.vresp.com/kv3sZJ',
+  'http://p0.vresp.com/WEH4gb',
+  'http://p0.vresp.com/ah94zQ',
+  'http://p0.vresp.com/peApTw',
+  'http://p0.vresp.com/fs8xmE',
+  'http://p0.vresp.com/WShLlJ',
+  'http://p0.vresp.com/Oi7v0T',
+  'http://p0.vresp.com/4iiTug',
+  'http://p0.vresp.com/c5HSRs',
+  'http://p0.vresp.com/PJnREh'];
+
+
+url.forEach(runScrapper);
+
+function runScrapper(url){
+
+  request(url, function(error, response, html){
+
+// console.log(url);
+console.log(html.length);
+
+   var $ = cheerio.load(html);
+    if(!error){
+      var title, name, link;
+      var json = { title : "", name : "", link : ""};
+
+      $('.header').filter(function(){
+            var data = $(this);
+            title = data.text();
+
+            json.title = title;
+          })
+
+      $('span').filter(function(){
+            var data = $(this);
+            name = data.text();
+
+            json.name = name;
+            json.link = url;
+
+          })
+
+    }
+    // res.send('<a href="'+ url +'">'+ title +'</a><br /><br />');
+    // fs.appendFile('emaillist.txt','<a href="'+ url +' target="_blank">'+ title +'</a>', function(err){});
+
+    fs.appendFile('output.json', JSON.stringify(json, null, 4), function(err){
+          console.log('File successfully written! - Check your project directory for the output.json file');
+          console.log(title);
+          console.log(name);
+          console.log(url);
+        })
+
+
+
+      });
+    };
+})
+  exports = module.exports = app;
+  //end of scrapper
   app.listen(4000);
+
 });
 
 gulp.task('default', ['express'], function() {
