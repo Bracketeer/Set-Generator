@@ -22,5 +22,13 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "angular": "~1.4.3",
+    "angular-csv-import": "~0.0.16",
+    "angular-dragdrop": "~1.0.11",
+    "angular-xeditable": "~0.1.9",
+    "jquery": "~2.1.4",
+    "jquery-ui": "~1.11.4"
+  }
 }
