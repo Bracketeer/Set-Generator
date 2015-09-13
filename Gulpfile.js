@@ -65,49 +65,46 @@ gulp.task('express', function() {
   //webscrapper
   app.get('/scrape', function(req, res){
 
-  var url = [
-  'http://p0.vresp.com/QDrEhK',
-  'http://p0.vresp.com/StxOiT',
-  'http://p0.vresp.com/S6GWpc',
-  'http://p0.vresp.com/wyzw3V',
-  'http://p0.vresp.com/7iKmoB',
-  'http://p0.vresp.com/cS9fdu',
-  'http://p0.vresp.com/algKnq',
-  'http://p0.vresp.com/AAE3fc',
-  'http://p0.vresp.com/TuSne9',
-  'http://p0.vresp.com/KPTglD',
-  'http://p0.vresp.com/rbuhmc',
-  'http://p0.vresp.com/F1KZ3c',
-  'http://p0.vresp.com/5wYGwE',
-  'http://p0.vresp.com/EYLBJf',
-  'http://p0.vresp.com/aMaLaN',
-  'http://p0.vresp.com/PibwYP',
-  'http://p0.vresp.com/x9ilhB',
-  'http://p0.vresp.com/0tfWcX',
-  'http://p0.vresp.com/f63dxZ',
-  'http://p0.vresp.com/urCKWn',
-  'http://p0.vresp.com/H3Tn6Y',
-  'http://p0.vresp.com/INaoZV',
-  'http://p0.vresp.com/Yx1GD9',
-  'http://p0.vresp.com/zggwYq',
-  'http://p0.vresp.com/0Vyz7A',
-  'http://p0.vresp.com/5U4LiP',
-  'http://p0.vresp.com/RQPyLJ',
-  'http://p0.vresp.com/x6PAi0',
-  'http://p0.vresp.com/ig0LaF',
-  'http://p0.vresp.com/StxOiT',
-  'http://p0.vresp.com/2l1VXh',
-  'http://p0.vresp.com/QKAzaN',
-  'http://p0.vresp.com/kv3sZJ',
-  'http://p0.vresp.com/WEH4gb',
-  'http://p0.vresp.com/ah94zQ',
-  'http://p0.vresp.com/peApTw',
-  'http://p0.vresp.com/fs8xmE',
-  'http://p0.vresp.com/WShLlJ',
-  'http://p0.vresp.com/Oi7v0T',
-  'http://p0.vresp.com/4iiTug',
-  'http://p0.vresp.com/c5HSRs',
-  'http://p0.vresp.com/PJnREh'];
+var url =
+  [
+    'http://p0.vresp.com/Zk7hjz',
+'http://p0.vresp.com/x988DV',
+'http://p0.vresp.com/Od6Z7J',
+'http://p0.vresp.com/R6dajN',
+'http://p0.vresp.com/VAITEZ',
+'http://p0.vresp.com/jAlEMv',
+'http://p0.vresp.com/mHYrVV',
+'http://p0.vresp.com/rN0TF5',
+'http://p0.vresp.com/CQ0O0H',
+'http://p0.vresp.com/aNjK0r',
+'http://p0.vresp.com/wSJ5zj',
+'http://p0.vresp.com/YwBiou',
+'http://p0.vresp.com/PSd5mv',
+'http://p0.vresp.com/OQzcmd',
+'http://p0.vresp.com/uEvb7P',
+'http://p0.vresp.com/W9kiBN',
+'http://p0.vresp.com/QfvR0o',
+'http://p0.vresp.com/e2LM6R',
+'http://p0.vresp.com/G5oclY',
+'http://p0.vresp.com/jorgcK',
+'http://p0.vresp.com/lluG7o',
+'http://p0.vresp.com/r5Dm10',
+'http://p0.vresp.com/iExXvl',
+'http://p0.vresp.com/EnNyRH',
+'http://p0.vresp.com/sybXlX',
+'http://p0.vresp.com/uPSoMe',
+'http://p0.vresp.com/UTIgPv',
+'http://p0.vresp.com/sz8Bxu',
+'http://p0.vresp.com/KmkKvm',
+'http://p0.vresp.com/tyk0Ge',
+'http://p0.vresp.com/1pKu3D',
+'http://p0.vresp.com/5bzClq',
+'http://p0.vresp.com/TNjsrX',
+'http://p0.vresp.com/WIyEF5',
+'http://p0.vresp.com/pGhKui',
+'http://p0.vresp.com/Nm4TA3',
+'http://p0.vresp.com/2Sck4s',
+'http://p0.vresp.com/XsVlov'];
 
 
 url.forEach(runScrapper);
@@ -124,25 +121,22 @@ console.log(html.length);
       var title, name, link;
       var json = { title : "", name : "", link : ""};
 
-      $('.header').filter(function(){
+      $('#title').filter(function(){
             var data = $(this);
             title = data.text();
 
             json.title = title;
           })
 
-      $('span').filter(function(){
+      $('#client-name').filter(function(){
             var data = $(this);
             name = data.text();
-
             json.name = name;
-            json.link = url;
-
           })
-
+          json.link = url;
     }
-    // res.send('<a href="'+ url +'">'+ title +'</a><br /><br />');
-    // fs.appendFile('emaillist.txt','<a href="'+ url +' target="_blank">'+ title +'</a>', function(err){});
+
+    fs.appendFile('Public/emaillist.html', name +' - <a href="'+ url +'" target="_blank">"'+ title +'"</a><br><br>' + '\n', function(err){});
 
     fs.appendFile('output.json', JSON.stringify(json, null, 4), function(err){
           console.log('File successfully written! - Check your project directory for the output.json file');
@@ -150,8 +144,6 @@ console.log(html.length);
           console.log(name);
           console.log(url);
         })
-
-
 
       });
     };
